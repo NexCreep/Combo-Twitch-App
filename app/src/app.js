@@ -1,0 +1,151 @@
+const token = '5v9o4chbxqvkoekzd4ojituw6co57u'
+const username = 'combo'
+const channel = 'nexcreepx'
+const log = {level: 'error'}
+const colors = require('colors/safe')
+
+const fs = require('fs')
+const path = require('path')
+
+const {Chat, ChatEvents} = require('twitch-js')
+
+const express = require('express');
+const bodyparser = require('body-parser');
+const app = express();
+
+
+var comboCount = 0
+var jsonToPost = {
+    "name": null,
+    "url": null,
+    "combo": 0
+}
+var actualSeg = new Date().getSeconds()
+var prevSeg = null
+
+const back = async () => {
+
+    app.use(bodyparser.json());
+    app.use(bodyparser.urlencoded({extended: false}))
+
+    app.get('/', (req, res) => {
+        res.json(jsonToPost)
+    })
+
+    app.post('/recombo', (req, res) => {
+        if (req.body['recombo'] === 'yes') {
+            jsonToPost = {
+                "name": null,
+                "url": null,
+                "combo": 0
+            }
+            console.log(jsonToPost);
+            res.json({
+                "response": "ok",
+            })
+        }else{
+            res.json({
+                "respose": "bad",
+                "message": "Bad request sended, nothing to do"
+            })
+        }
+    })
+
+    app.listen(process.env.PORT || 3030 , () =>{
+        console.log('Server started succesfully');
+    })
+}
+
+const main = async () => {
+    const rawdata = fs.readFileSync(path.join(__dirname + '/emotes.json'), 'utf-8');
+    const emotesjson = JSON.parse(rawdata);
+    const emotesnames = emotesjson.emotesnames
+    var emoteid = ''
+
+    const chat = new Chat({
+        username,
+        token,
+        log: log
+    });
+
+    await chat.connect();
+    await chat.join(channel)
+            .then(console.log(`Joined to ${channel}`));
+
+    chat.on('PRIVMSG', msg => {
+        var format = `${colors.green(msg.username)}: ${msg.message} \n`
+        console.log(format);
+        for (var i = 0; i <= emotesnames.length; i++) {
+            if (msg.message.includes(emotesnames[i])) {
+
+                emoteid = emotesjson.emotes[emotesnames[i]]
+                console.log(formatURL(emoteid))
+
+                if (jsonToPost.name == null){
+                    jsonToPost = {
+                        "name": emotesnames[i],
+                        "url": formatURL(emoteid),
+                        "combo": 0
+                    }
+                }
+
+                if (emotesnames[i] === jsonToPost.name){
+                    comboCount++
+                    console.log(comboCount);
+                }
+
+                if (comboCount < 10) {
+                    jsonToPost.combo = 0
+
+                } else if (comboCount >= 20){
+                    do {
+                        comboCount--
+                        jsonToPost.combo = comboCount
+                        console.log(jsonToPost);
+                    } while (comboCount != 0);
+                    jsonToPost = {
+                        "name": null,
+                        "url": null,
+                        "combo": 0
+                    }
+
+                } else {
+                    jsonToPost.combo = 0
+                }
+
+                if (timeToRes === 20) {
+                    console.log(timeToRes);
+                    timeToRes = 0;
+                    console.log(timeToRes);
+
+                }
+
+                if (actualSeg != prevSeg) {
+                    actualTime++
+                }
+                prevSeg = actualSeg
+                actualSeg = new Date().getSeconds()
+
+                console.log(jsonToPost.name + " " + jsonToPost.url);
+            }
+        }
+    })
+}
+// 9 Twitch 
+var formatURL = EID => {
+    if (EID.length >= 24){
+        return `https://cdn.betterttv.net/emote/${EID}/3x`
+
+    }else if (EID.length == 6){
+        return `https://cdn.frankerfacez.com/emoticon/${EID}/4`
+
+    }else if (EID.length == 9){
+        return `https://static-cdn.jtvnw.net/emoticons/v1/${EID}/3.0`
+    }
+
+}
+
+if (require.main === module){
+    back()
+    main()    
+}
