@@ -10,14 +10,14 @@ const path = require('path')
 const {Chat, ChatEvents} = require('twitch-js')
 
 const express = require('express');
+const hbs = require('express-handlebars');
 const bodyparser = require('body-parser');
 const app = express();
-
 
 var comboCount = 0
 var jsonToPost = {
     "name": null,
-    "url": null,
+    "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
     "combo": 0
 }
 var actualSeg = new Date().getSeconds()
@@ -28,7 +28,20 @@ const back = async () => {
     app.use(bodyparser.json());
     app.use(bodyparser.urlencoded({extended: false}))
 
+    app.set('view engine', 'hbs');
+    app.set('views', path.join(__dirname + '/views'))
+    app.engine('hbs', hbs({
+        layoutsDir: path.join(__dirname + '/views/layouts'),
+        extname: 'hbs',
+        defaultLayout: 'main',
+    }))
+    app.use(express.static(path.join(__dirname + '/public')));
+
     app.get('/', (req, res) => {
+        res.render('index')
+    })
+
+    app.get('/api', (req, res) => {
         res.json(jsonToPost)
     })
 
@@ -36,7 +49,7 @@ const back = async () => {
         if (req.body['recombo'] === 'yes') {
             jsonToPost = {
                 "name": null,
-                "url": null,
+                "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
                 "combo": 0
             }
             console.log(jsonToPost);
@@ -51,7 +64,7 @@ const back = async () => {
         }
     })
 
-    app.listen(process.env.PORT || 3030 , () =>{
+    app.listen(process.env.PORT || 3000 , () =>{
         console.log('Server started succesfully');
     })
 }
@@ -84,7 +97,7 @@ const main = async () => {
                 if (jsonToPost.name == null){
                     jsonToPost = {
                         "name": emotesnames[i],
-                        "url": formatURL(emoteid),
+                        "url": formatURL(emoteid, emotesjson.emotesexcl),
                         "combo": 0
                     }
                 }
@@ -105,26 +118,13 @@ const main = async () => {
                     } while (comboCount != 0);
                     jsonToPost = {
                         "name": null,
-                        "url": null,
+                        "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.pngw',
                         "combo": 0
                     }
 
                 } else {
-                    jsonToPost.combo = 0
+                    jsonToPost.combo = comboCount
                 }
-
-                if (timeToRes === 20) {
-                    console.log(timeToRes);
-                    timeToRes = 0;
-                    console.log(timeToRes);
-
-                }
-
-                if (actualSeg != prevSeg) {
-                    actualTime++
-                }
-                prevSeg = actualSeg
-                actualSeg = new Date().getSeconds()
 
                 console.log(jsonToPost.name + " " + jsonToPost.url);
             }
@@ -132,14 +132,18 @@ const main = async () => {
     })
 }
 // 9 Twitch 
-var formatURL = EID => {
+var formatURL = (EID, LIST) => {
     if (EID.length >= 24){
         return `https://cdn.betterttv.net/emote/${EID}/3x`
 
     }else if (EID.length == 6){
-        return `https://cdn.frankerfacez.com/emoticon/${EID}/4`
+        if (LIST.includes(EID)){
+            return `https://static-cdn.jtvnw.net/emoticons/v1/${EID}/3.0`   
+        }else{
+            return `https://cdn.frankerfacez.com/emoticon/${EID}/4`
+        }
 
-    }else if (EID.length == 9){
+    }else if (EID.length > 6){
         return `https://static-cdn.jtvnw.net/emoticons/v1/${EID}/3.0`
     }
 

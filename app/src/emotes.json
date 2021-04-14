@@ -3,12 +3,17 @@
         "OMEGALUL",
         "mayiFacha",
         "blobDance",
-        "mayiYe"
+        "mayiYe",
+        "mayiHeart"
+    ],
+    "emotesexcl":[
+        "736877"
     ],
     "emotes":{
        "OMEGALUL" : "128054",
        "mayiFacha": "603930817c74605395f34c4d",
        "blobDance": "5ada077451d4120ea3918426",
-       "mayiYe": "301307981"
+       "mayiYe": "301307981",
+       "mayiHeart": "736877"
     }
 }
