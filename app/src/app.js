@@ -112,17 +112,7 @@ const main = async () => {
                 if (comboCount < 10) {
                     jsonToPost.combo = 0
 
-                } //else if (comboCount >= 200){
-                //     do {
-                //         comboCount--
-                //         jsonToPost.combo = comboCount
-                //         console.log(jsonToPost);
-                //     } while (comboCount != 0);
-                //     jsonToPost = {
-                //         "name": null,
-                //         "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
-                //         "combo": 0
-                //     }
+                }   
 
                 else {
                     jsonToPost.combo = comboCount
@@ -133,7 +123,6 @@ const main = async () => {
         }
     })
 }
-// 9 Twitch 
 var formatURL = (EID, LIST) => {
 
     if (EID.length >= 24){

@@ -9,9 +9,13 @@ const request = () => {
         var comboCont = document.getElementById('comboCont');
 
         if (data.combo < 10) {
+            $("#comboCont").stop(true, true)
             $("#comboCont").slideUp('fast');
             //comboCont.style.display = 'none'
         }else if (data.combo >= 10){
+            if (data.combo >= 150){
+                $("#comboCont").effect("shake")
+            }
             $("#comboCont").slideDown('fast');
     
         }
@@ -25,6 +29,16 @@ const request = () => {
         if (imgemote.src != data.url) {
             imgemote.src = data.url
         }
+    })
+    .catch(err => {
+        var elementE = document.getElementById('response');
+        var imgemoteE = document.getElementById('emoteimg');
+
+        elementE.innerHTML = `<span style="color: red;"> AN ERROR OCURRED <br> ${err} </span>`
+        imgemoteE.src = 'https://static-cdn.jtvnw.net/emoticons/v1/58765/3.0'
+        $("#comboCont").slideDown('fast');
+
+        
     })
 }
 

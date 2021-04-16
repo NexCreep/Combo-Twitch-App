@@ -16,5 +16,5 @@ const postreq = () => {
 }
 
 $(document).ready(() => {
-    setInterval(postreq, 90000)
+    setInterval(postreq, 120000)
 });
