@@ -1,6 +1,6 @@
 const token = '5v9o4chbxqvkoekzd4ojituw6co57u'
 const username = 'combo'
-const channel = 'nexcreepx'
+const channel = 'Mayichi'
 const log = {level: 'error'}
 const colors = require('colors/safe')
 
@@ -47,10 +47,11 @@ const back = async () => {
 
     app.post('/recombo', (req, res) => {
         if (req.body['recombo'] === 'yes') {
+            comboCount = 0
             jsonToPost = {
                 "name": null,
                 "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
-                "combo": 0
+                "combo": comboCount
             }
             console.log(jsonToPost);
             res.json({
@@ -73,6 +74,7 @@ const main = async () => {
     const rawdata = fs.readFileSync(path.join(__dirname + '/emotes.json'), 'utf-8');
     const emotesjson = JSON.parse(rawdata);
     const emotesnames = emotesjson.emotesnames
+    const emotesexcl = emotesjson.emotesexcl
     var emoteid = ''
 
     const chat = new Chat({
@@ -92,12 +94,12 @@ const main = async () => {
             if (msg.message.includes(emotesnames[i])) {
 
                 emoteid = emotesjson.emotes[emotesnames[i]]
-                console.log(formatURL(emoteid))
+                console.log(formatURL(emoteid, emotesexcl))
 
                 if (jsonToPost.name == null){
                     jsonToPost = {
                         "name": emotesnames[i],
-                        "url": formatURL(emoteid, emotesjson.emotesexcl),
+                        "url": formatURL(emoteid, emotesexcl),
                         "combo": 0
                     }
                 }
@@ -110,19 +112,19 @@ const main = async () => {
                 if (comboCount < 10) {
                     jsonToPost.combo = 0
 
-                } else if (comboCount >= 20){
-                    do {
-                        comboCount--
-                        jsonToPost.combo = comboCount
-                        console.log(jsonToPost);
-                    } while (comboCount != 0);
-                    jsonToPost = {
-                        "name": null,
-                        "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.pngw',
-                        "combo": 0
-                    }
+                } //else if (comboCount >= 200){
+                //     do {
+                //         comboCount--
+                //         jsonToPost.combo = comboCount
+                //         console.log(jsonToPost);
+                //     } while (comboCount != 0);
+                //     jsonToPost = {
+                //         "name": null,
+                //         "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
+                //         "combo": 0
+                //     }
 
-                } else {
+                else {
                     jsonToPost.combo = comboCount
                 }
 
@@ -133,6 +135,7 @@ const main = async () => {
 }
 // 9 Twitch 
 var formatURL = (EID, LIST) => {
+
     if (EID.length >= 24){
         return `https://cdn.betterttv.net/emote/${EID}/3x`
 
@@ -143,7 +146,7 @@ var formatURL = (EID, LIST) => {
             return `https://cdn.frankerfacez.com/emoticon/${EID}/4`
         }
 
-    }else if (EID.length > 6){
+    }else if (EID.length > 6 || EID.length < 6){
         return `https://static-cdn.jtvnw.net/emoticons/v1/${EID}/3.0`
     }
 
