@@ -9,8 +9,8 @@ const request = () => {
         var comboCont = document.getElementById('comboCont');
 
         if (data.combo < 10) {
-            $("#comboCont").stop(true, true)
             $("#comboCont").slideUp('fast');
+            $("#comboCont").stop(true, true)
             //comboCont.style.display = 'none'
         }else if (data.combo >= 10){
             if (data.combo >= 150){
