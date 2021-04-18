@@ -3,7 +3,7 @@ var dataToSended = [{
 }]
 
 const postreq = () => {
-    fetch('http://127.0.0.1:3000/recombo', {
+    fetch('/recombo', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

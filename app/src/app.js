@@ -1,6 +1,6 @@
 const token = '5v9o4chbxqvkoekzd4ojituw6co57u'
 const username = 'combo'
-const channel = 'Mayichi'
+const channel = 'nexcreepx'
 const log = {level: 'error'}
 const colors = require('colors/safe')
 
@@ -20,8 +20,6 @@ var jsonToPost = {
     "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
     "combo": 0
 }
-var actualSeg = new Date().getSeconds()
-var prevSeg = null
 
 const back = async () => {
 

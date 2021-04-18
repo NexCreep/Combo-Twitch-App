@@ -54,5 +54,5 @@ function pulse(element) {
 
 $(document).ready(() => {
     //document.getElementById('comboCont').style.display = 'none'
-    setInterval(request, 5)
+    setInterval(request, 90)
 })
