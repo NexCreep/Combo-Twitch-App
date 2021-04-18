@@ -1,6 +1,6 @@
 const token = '5v9o4chbxqvkoekzd4ojituw6co57u'
 const username = 'combo'
-const channel = 'nexcreepx'
+const channel = 'Mayichi'
 const log = {level: 'error'}
 const colors = require('colors/safe')
 
