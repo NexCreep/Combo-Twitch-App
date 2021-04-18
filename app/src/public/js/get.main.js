@@ -4,34 +4,37 @@ const request = () => {
     fetch('/api')
     .then(res => res.json())
     .then(data => {
-        var element = document.getElementById('response');
+        var elementEmote = document.getElementById('responseEmote')
+        var elementCount = document.getElementById('responseCount');
         var imgemote = document.getElementById('emoteimg');
         var comboCont = document.getElementById('comboCont');
 
+        console.log(data.combo);
+
         if (data.combo < 10) {
             $("#comboCont").slideUp('fast');
-            $("#comboCont").stop(true, true)
             //comboCont.style.display = 'none'
-        }else if (data.combo >= 10){
-            if (data.combo >= 150){
-                $("#comboCont").effect("shake")
-            }
+        }else if (data.combo >= 10){ 
             $("#comboCont").slideDown('fast');
-    
         }
         if (data.combo != prev){
-            pulse('#emoteimg')
+            if (data.combo >= 150){
+                $("#comboCont").effect("shake");
+            }else{
+                pulse('#emoteimg')
+            }
             prev = data.combo
         }
 
 
-        element.innerHTML = `Combo x${data.combo} </br> ${data.name}`
+        elementCount.innerHTML = `Combo x${data.combo}`
+        elementEmote.innerHTML = `${data.name}`
         if (imgemote.src != data.url) {
             imgemote.src = data.url
         }
     })
     .catch(err => {
-        var elementE = document.getElementById('response');
+        var elementE = document.getElementById('responseCount');
         var imgemoteE = document.getElementById('emoteimg');
 
         elementE.innerHTML = `<span style="color: red;"> AN ERROR OCURRED <br> ${err} </span>`

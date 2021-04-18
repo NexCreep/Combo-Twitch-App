@@ -12,7 +12,11 @@ const postreq = () => {
         body: JSON.stringify({"recombo":"yes"})
     })
         .then(res => res.json())
-        .then(data => console.log(data));
+        .then(data => {
+            if(data.response === "ok"){
+                console.log('YEAH');
+            }
+        });
 }
 
 $(document).ready(() => {

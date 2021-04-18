@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
 
-#response{
+.col{
+    text-align: center !important;
+}
+
+#responseEmote{
     font-size: 30pt;
     position: top;
     font-family: 'Dela Gothic One', cursive;
@@ -9,7 +13,18 @@
     padding: 4px;
     text-align: center;
 }
+#responseCount{
+    font-size: 30pt;
+    position: top;
+    font-family: 'Dela Gothic One', cursive;
+    background-color: rgba(37, 222, 255, 0.521);
+    border-radius: 10px;
+    padding: 4px;
+    text-align: center;
+    width: 50%;
+}
+
 #emoteimg{
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
 }
