@@ -1,5 +1,5 @@
-const token = '5v9o4chbxqvkoekzd4ojituw6co57u'
-const username = 'combo'
+const token = 'oauth:zzl82t30n57lzjwegiy9v9vocbyo9q'
+const username = 'MayCatBot'
 const channel = 'Mayichi'
 const log = {level: 'error'}
 const colors = require('colors/safe')
@@ -17,7 +17,7 @@ const app = express();
 var comboCount = 0
 var jsonToPost = {
     "name": null,
-    "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
+    "url": './img/none.png',    
     "combo": 0
 }
 
@@ -48,10 +48,9 @@ const back = async () => {
             comboCount = 0
             jsonToPost = {
                 "name": null,
-                "url": 'http://assets.stickpng.com/images/580b57fcd9996e24bc43c540.png',
+                "url": './img/none.png',
                 "combo": comboCount
             }
-            console.log(jsonToPost);
             res.json({
                 "response": "ok",
             })
@@ -76,11 +75,10 @@ const main = async () => {
     var emoteid = ''
 
     const chat = new Chat({
-        username,
+        username: username,
         token,
         log: log
     });
-
     await chat.connect();
     await chat.join(channel)
             .then(console.log(`Joined to ${channel}`));
