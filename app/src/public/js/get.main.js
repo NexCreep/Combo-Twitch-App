@@ -11,6 +11,7 @@ const request = () => {
             $("#comboCont").slideUp('fast', ()=>{
                 $("#responseEmote").css("background-color", "transparent");
                 $("#responseEmote").css("color", "unset");
+                $("#comboCont").effect(false, false)
             })//.then(function(){
             //     $("#responseEmote").css("background-color", "transparent");
             //     $("#responseEmote").css("color", "unset");
