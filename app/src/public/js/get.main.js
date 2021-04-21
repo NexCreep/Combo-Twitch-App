@@ -11,7 +11,6 @@ const request = () => {
             $("#comboCont").slideUp('fast', ()=>{
                 $("#responseEmote").css("background-color", "transparent");
                 $("#responseEmote").css("color", "unset");
-                $("#comboCont").effect(false, false)
             })//.then(function(){
             //     $("#responseEmote").css("background-color", "transparent");
             //     $("#responseEmote").css("color", "unset");
@@ -20,7 +19,6 @@ const request = () => {
         }else if (data.combo >= 10){
             $("#responseEmote").css("background-color", "rgba(37, 222, 255, 0.521)");
             $("#responseEmote").css("color", "magenta");
-            $("#comboCont").effect(true, true)
             $("#comboCont").slideDown('fast');
         }
         if (data.combo != prev){
