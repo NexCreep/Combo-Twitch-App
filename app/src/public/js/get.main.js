@@ -20,7 +20,7 @@ const request = () => {
         }else if (data.combo >= 10){
             $("#responseEmote").css("background-color", "rgba(37, 222, 255, 0.521)");
             $("#responseEmote").css("color", "magenta");
-            $("#comboCont").effect(false, false)
+            $("#comboCont").effect(true, true)
             $("#comboCont").slideDown('fast');
         }
         if (data.combo != prev){
