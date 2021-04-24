@@ -1,6 +1,6 @@
 const token = 'oauth:zzl82t30n57lzjwegiy9v9vocbyo9q'
 const username = 'MayCatBot'
-const channel = 'nexcreepx'
+const channel = 'Mayichi'
 const log = {level: 'error'}
 const colors = require('colors/safe')
 
