@@ -1,6 +1,6 @@
 const token = 'oauth:zzl82t30n57lzjwegiy9v9vocbyo9q'
 const username = 'MayCatBot'
-const channel = 'Mayichi'
+const channel = 'nexcreepx'
 const log = {level: 'error'}
 const colors = require('colors/safe')
 
@@ -68,7 +68,7 @@ const back = async () => {
 }
 
 const main = async () => {
-    const rawdata = fs.readFileSync(path.join(__dirname + '/emotes.json'), 'utf-8');
+    const rawdata = fs.readFileSync(path.join(__dirname + '/emotes.json'));
     const emotesjson = JSON.parse(rawdata);
     const emotesnames = emotesjson.emotesnames
     const emotesexcl = emotesjson.emotesexcl

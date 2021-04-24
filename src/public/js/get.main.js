@@ -1,4 +1,6 @@
 var prev = 0
+var firstTime = true
+var errorControl = false
 
 const request = () => {
     fetch('/api')
@@ -6,17 +8,14 @@ const request = () => {
     .then(data => {
         var elementEmote = document.getElementById('responseEmote')
         var imgemote = document.getElementById('emoteimg');
-
-        if (data.combo < 10) {
+        if(errorControl){
+            $("#comboCont").stop(true)
             $("#comboCont").slideUp('fast', ()=>{
                 $("#responseEmote").css("background-color", "transparent");
                 $("#responseEmote").css("color", "unset");
-            })//.then(function(){
-            //     $("#responseEmote").css("background-color", "transparent");
-            //     $("#responseEmote").css("color", "unset");
-            // });
-            //comboCont.style.display = 'none'
-        }else if (data.combo >= 10){
+            })
+        }
+        if (data.combo >= 10){
             $("#responseEmote").css("background-color", "rgba(37, 222, 255, 0.521)");
             $("#responseEmote").css("color", "magenta");
             $("#comboCont").slideDown('fast');
@@ -24,6 +23,12 @@ const request = () => {
         if (data.combo != prev){
             if (data.combo >= 150){
                 $("#comboCont").effect("shake");
+            }else if(data.combo == 0){
+                $("#comboCont").stop(true)
+                $("#comboCont").slideUp('fast', ()=>{
+                    $("#responseEmote").css("background-color", "transparent");
+                    $("#responseEmote").css("color", "unset");
+                });
             }else{
                 pulse('#emoteimg')
             }
@@ -35,8 +40,11 @@ const request = () => {
         if (imgemote.src != data.url) {
             imgemote.src = data.url
         }
+        firstTime = false
+        errorControl = false
     })
     .catch(err => {
+        errorControl = true
         var elementE = document.getElementById('responseEmote');
         var imgemoteE = document.getElementById('emoteimg');
 
@@ -60,5 +68,9 @@ function pulse(element) {
 
 $(document).ready(() => {
     //document.getElementById('comboCont').style.display = 'none'
+    $("#comboCont").slideUp('fast', ()=>{
+        $("#responseEmote").css("background-color", "transparent");
+        $("#responseEmote").css("color", "unset");
+    })
     setInterval(request, 90)
 })
