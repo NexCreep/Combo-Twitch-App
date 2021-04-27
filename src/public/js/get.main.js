@@ -29,6 +29,7 @@ const request = () => {
                     $("#responseEmote").css("background-color", "transparent");
                     $("#responseEmote").css("color", "unset");
                 });
+                
             }else{
                 pulse('#emoteimg')
             }

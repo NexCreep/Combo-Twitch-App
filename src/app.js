@@ -12,13 +12,15 @@ const {Chat, ChatEvents} = require('twitch-js')
 const express = require('express');
 const hbs = require('express-handlebars');
 const bodyparser = require('body-parser');
+const e = require('express')
 const app = express();
 
 var comboCount = 0
 var jsonToPost = {
     "name": null,
     "url": './img/none.png',    
-    "combo": 0
+    "combo": 0,
+    "status": true
 }
 
 const back = async () => {
@@ -49,7 +51,11 @@ const back = async () => {
             jsonToPost = {
                 "name": null,
                 "url": './img/none.png',
-                "combo": comboCount
+                "combo": comboCount,
+                "status": true
+            }
+            if (req.body['stop'] === 'yes'){
+                jsonToPost.status = false
             }
             res.json({
                 "response": "ok",
@@ -85,10 +91,12 @@ const main = async () => {
 
     chat.on('PRIVMSG', msg => {
         var format = `${colors.green(msg.username)}: ${msg.message} \n`
-        console.log(format);
+        //console.log(format);
         for (var i = 0; i <= emotesnames.length; i++) {
-            if (msg.message.includes(emotesnames[i])) {
+            if (msg.message.includes(emotesnames[i]) && jsonToPost.status == true) {
 
+                console.log(format);
+                
                 emoteid = emotesjson.emotes[emotesnames[i]]
                 console.log(formatURL(emoteid, emotesexcl))
 
@@ -96,7 +104,8 @@ const main = async () => {
                     jsonToPost = {
                         "name": emotesnames[i],
                         "url": formatURL(emoteid, emotesexcl),
-                        "combo": 0
+                        "combo": 0,
+                        "status": true
                     }
                 }
 
@@ -108,12 +117,9 @@ const main = async () => {
                 if (comboCount < 10) {
                     jsonToPost.combo = 0
 
-                }   
-
-                else {
+                }else {
                     jsonToPost.combo = comboCount
                 }
-
                 console.log(jsonToPost.name + " " + jsonToPost.url);
             }
         }
